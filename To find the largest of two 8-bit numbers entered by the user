@@ -1,0 +1,58 @@
+;17. Write a program to find the largest of two 8-bit numbers entered by the user.
+
+section .bss
+n1 resb 2
+n2 resb 2
+max resb 1
+
+section .data
+nl db 10
+
+section .text
+global _start
+_start:
+    ; read first number
+    mov eax,3
+    mov ebx,0
+    mov ecx,n1
+    mov edx,2
+    int 0x80
+
+    ; read second number
+    mov eax,3
+    mov ebx,0
+    mov ecx,n2
+    mov edx,2
+    int 0x80
+
+    ; convert ascii to numeric
+    mov al,[n1]
+    sub al,'0'
+    mov bl,[n2]
+    sub bl,'0'
+
+    ; compare
+    cmp al,bl
+    jge first
+    mov al,bl
+
+first:
+    add al,'0'
+    mov [max],al
+
+    ; print largest
+    mov eax,4
+    mov ebx,1
+    mov ecx,max
+    mov edx,1
+    int 0x80
+
+    ; newline
+    mov eax,4
+    mov ebx,1
+    mov ecx,nl
+    mov edx,1
+    int 0x80
+
+    mov eax,1
+    int 0x80
