@@ -1,0 +1,33 @@
+;7. Write a program to accept two 8-bit numbers from the user, perform addition, and trace result in GDB.
+
+section .bss     ;( .bss , it is use for reserve space for feature use , it is for uninitialized storage.)
+n1 resb 2
+n2 resb 2
+res resb 1
+section .text               ; from here we start code .text contains code. 
+global _start               ; global _start tells the linker the program entry label
+_start:                     ; _start is the entry point
+    mov eax,3
+    mov ebx,0
+    mov ecx,n1
+    mov edx,2
+    int 0x80
+    mov eax,3
+    mov ebx,0
+    mov ecx,n2
+    mov edx,2
+    int 0x80
+    mov al,[n1]
+    sub al,'0'
+    mov bl,[n2]
+    sub bl,'0'
+    add al,bl
+    add al,'0'
+    mov [res],al
+    mov eax,4
+    mov ebx,1
+    mov ecx,res
+    mov edx,1
+    int 0x80
+    mov eax,1
+    int 0x80
