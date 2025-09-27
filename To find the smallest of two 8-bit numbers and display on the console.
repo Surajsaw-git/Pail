@@ -1,0 +1,51 @@
+;18. Write a program to find the smallest of two 8-bit numbers and display on the console.
+
+section .bss
+str resb 50
+rev resb 50
+
+section .data
+nl db 10
+
+section .text
+global _start
+_start:
+    ; read string (max 50 chars)
+    mov eax,3
+    mov ebx,0
+    mov ecx,str
+    mov edx,50
+    int 0x80
+
+    ; eax = number of bytes read
+    mov esi,str
+    mov edi,rev
+    mov ecx,eax
+    dec ecx              ; ignore newline
+
+    add esi,ecx          ; point to last char
+    mov edx,ecx          ; save length
+
+rev_loop:
+    mov al,[esi]
+    mov [edi],al
+    dec esi
+    inc edi
+    loop rev_loop
+
+    ; print reversed string
+    mov eax,4
+    mov ebx,1
+    mov ecx,rev
+    mov edx,edx
+    int 0x80
+
+    ; print newline
+    mov eax,4
+    mov ebx,1
+    mov ecx,nl
+    mov edx,1
+    int 0x80
+
+    mov eax,1
+    int 0x80
