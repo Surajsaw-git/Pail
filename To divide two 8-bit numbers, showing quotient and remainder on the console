@@ -1,0 +1,45 @@
+;11. Write a program to divide two 8-bit numbers, showing quotient and remainder on the console.
+
+section .text
+global _start
+_start:
+    mov al,9
+    mov bl,4
+    xor ah,ah
+    div bl
+    add al,'0'
+    mov [q],al
+    add ah,'0'
+    mov [r],ah
+
+    mov eax,4
+    mov ebx,1
+    mov ecx,q
+    mov edx,1
+    int 0x80
+
+    mov eax,4
+    mov ebx,1
+    mov ecx,nl
+    mov edx,1
+    int 0x80
+
+    mov eax,4
+    mov ebx,1
+    mov ecx,r
+    mov edx,1
+    int 0x80
+
+    mov eax,4
+    mov ebx,1
+    mov ecx,nl
+    mov edx,1
+    int 0x80
+
+    mov eax,1
+    int 0x80
+
+section .data
+q db 0
+r db 0
+nl db 10
