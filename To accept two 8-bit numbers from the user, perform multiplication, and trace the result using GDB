@@ -1,0 +1,33 @@
+;13. Write a program to accept two 8-bit numbers from the user, perform multiplication, and trace the result using GDB.
+
+section .bss
+n1 resb 2
+n2 resb 2
+res resb 1
+section .text
+global _start
+_start:
+    mov eax,3
+    mov ebx,0
+    mov ecx,n1
+    mov edx,2
+    int 0x80
+    mov eax,3
+    mov ebx,0
+    mov ecx,n2
+    mov edx,2
+    int 0x80
+    mov al,[n1]
+    sub al,'0'
+    mov bl,[n2]
+    sub bl,'0'
+    mul bl
+    add al,'0'
+    mov [res],al
+    mov eax,4
+    mov ebx,1
+    mov ecx,res
+    mov edx,1
+    int 0x80
+    mov eax,1
+    int 0x80
