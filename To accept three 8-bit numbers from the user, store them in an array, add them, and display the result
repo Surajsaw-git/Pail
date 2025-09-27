@@ -1,34 +1,50 @@
 ;16. Write a program to accept three 8-bit numbers from the user, store them in an array, add them, and display the result.
 
 
-section .text
-global _start
-
-_start:
-    mov eax, arr
-    mov ebx, 0
-    mov ecx, 3
-
-top:
-    add bl, byte [eax]
-    add eax, 1
-    loop top
-
-done:
-    add bl, '0'
-    mov [sum], bl
-
-display:
-    mov edx, 2
-    mov ecx, sum
-    mov ebx, 1
-    mov eax, 4
-    int 0x80
-
-    mov eax, 1
-    int 0x80
+section .bss
+nums resb 3
+sum  resb 1
 
 section .data
-arr: db 2, 3, 4      ; three numbers (example: 2+3+4=9)
+nl db 10
 
-sum: db 0, 0xa       ; result + newline
+section .text
+global _start
+_start:
+    ; read 3 digits into nums
+    mov eax,3
+    mov ebx,0
+    mov ecx,nums
+    mov edx,3
+    int 0x80
+
+    ; add three numbers
+    mov al,[nums]
+    sub al,'0'
+    mov bl,[nums+1]
+    sub bl,'0'
+    add al,bl
+    mov bl,[nums+2]
+    sub bl,'0'
+    add al,bl
+
+    ; convert to ascii
+    add al,'0'
+    mov [sum],al
+
+    ; print result
+    mov eax,4
+    mov ebx,1
+    mov ecx,sum
+    mov edx,1
+    int 0x80
+
+    ; print newline
+    mov eax,4
+    mov ebx,1
+    mov ecx,nl
+    mov edx,1
+    int 0x80
+
+    mov eax,1
+    int 0x80
